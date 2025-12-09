@@ -3,211 +3,186 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Progol — Calculadora Automática</title>
+<title>Progol — Calculadora Avanzada</title>
 
 <style>
-  :root{
-    --bg:#0b1220;
-    --panel:#0d1620;
-    --accent:#00d1ff;
-    --draw:#ffa500;
-    --away:#ff4d4d;
-    --muted:#9fb0bd;
-  }
-  body{
-    font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif;
-    background:linear-gradient(180deg,var(--bg),#03121a);
-    color:#e6f7fb;
-    padding:18px;
-    margin:0;
-  }
-  .wrap{
-    max-width:920px;
-    margin:12px auto;
-    padding:18px;
-    background:var(--panel);
-    border-radius:12px;
-    box-shadow:0 10px 40px rgba(2,6,12,0.6);
-  }
-  h1{margin:0 0 8px;color:var(--accent)}
-  p.lead{color:var(--muted);margin:0 0 12px}
-
-  .grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-  }
-  @media(max-width:820px){
-    .grid{ grid-template-columns:1fr; }
-  }
-
-  label{
-    display:block;color:var(--muted);font-size:13px;margin:8px 0 6px
-  }
-
-  input[type=text],input[type=number]{
-    width:100%;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid rgba(255,255,255,0.05);
-    background:rgba(255,255,255,0.02);
-    color:inherit;
-    box-sizing:border-box;
-    font-size:15px;
-  }
-
-  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-  button{
-    background:var(--accent);
-    color:#022;
-    border:0;
-    padding:12px 16px;
-    border-radius:10px;
-    font-weight:700;
-    cursor:pointer;
-  }
-
-  .result{
-    margin-top:16px;
-    padding:12px;
-    border-radius:10px;
-    background:linear-gradient(180deg, rgba(0,209,255,0.03), rgba(255,255,255,0.01));
-  }
-
-  .bars{
-    display:flex;
-    gap:8px;
-    align-items:flex-end;
-    height:140px;
-  }
-  @media(max-width:650px){ .bars{height:110px;} }
-  @media(max-width:480px){ .bars{height:90px;} }
-
-  .bar{
-    flex:1;
-    border-radius:8px;
-    padding:8px 6px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    align-items:center;
-    background:rgba(255,255,255,0.02);
-  }
-  .fill{
-    width:100%;
-    border-radius:8px 8px 0 0;
-    transition:height .5s;
-  }
-  .small{font-size:13px;color:var(--muted)}
-  footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+:root{
+  --bg:#0b1220;
+  --panel:#0d1620;
+  --accent:#00d1ff;
+  --draw:#ffa500;
+  --away:#ff4d4d;
+  --muted:#9fb0bd;
+}
+body{
+  font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,var(--bg),#03121a);
+  color:#e6f7fb;
+  padding:18px;
+  margin:0;
+}
+.wrap{
+  max-width:950px;
+  margin:12px auto;
+  padding:18px;
+  background:var(--panel);
+  border-radius:12px;
+  box-shadow:0 10px 40px rgba(2,6,12,0.6);
+}
+h1{margin:0 0 8px;color:var(--accent)}
+p.lead{color:var(--muted);margin:0 0 12px}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+@media(max-width:820px){ .grid{ grid-template-columns:1fr; } }
+label{
+  display:block;color:var(--muted);font-size:13px;margin:8px 0 6px
+}
+input[type=text],input[type=number]{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.02);
+  color:inherit;
+  box-sizing:border-box;
+  font-size:15px;
+}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+button{
+  background:var(--accent);
+  color:#022;
+  border:0;
+  padding:12px 16px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+}
+.result{
+  margin-top:16px;
+  padding:12px;
+  border-radius:10px;
+  background:linear-gradient(180deg, rgba(0,209,255,0.03), rgba(255,255,255,0.01));
+}
+.bars{
+  display:flex;
+  gap:8px;
+  align-items:flex-end;
+  height:140px;
+}
+@media(max-width:650px){ .bars{height:110px;} }
+@media(max-width:480px){ .bars{height:90px;} }
+.bar{
+  flex:1;
+  border-radius:8px;
+  padding:8px 6px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  background:rgba(255,255,255,0.02);
+}
+.fill{
+  width:100%;
+  border-radius:8px 8px 0 0;
+  transition:height .5s;
+}
+.small{font-size:13px;color:var(--muted)}
+footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
 </style>
 </head>
-
 <body>
-  <div class="wrap">
-    <h1>Progol — Cálculo Automático</h1>
-    <p class="lead">Ingresa los datos manuales. El sistema calcula automáticamente.</p>
+<div class="wrap">
+  <h1>Progol — Cálculo Avanzado</h1>
+  <p class="lead">Ingresa todos los datos históricos para calcular probabilidades reales.</p>
 
-    <div class="grid">
-      <div>
-        <label>Nombre equipo (LOCAL)</label>
-        <input id="homeName" type="text" value="Local FC">
+  <div class="grid">
+    <div>
+      <label>Nombre equipo (LOCAL)</label>
+      <input id="homeName" type="text" value="Local FC">
+      <label>Posición</label>
+      <input id="homePos" type="number" min="0" value="0">
+      <label>Puntos</label>
+      <input id="homePts" type="number" min="0" value="0">
+      <label>Goles a favor</label>
+      <input id="homeGF" type="number" min="0" value="0">
+      <label>Goles en contra</label>
+      <input id="homeGC" type="number" min="0" value="0">
+      <label>Partidos jugados</label>
+      <input id="homeMP" type="number" min="0" value="0">
 
-        <label>Posición</label>
-        <input id="homePos" type="number" min="0" value="0">
+      <label>Ganados como LOCAL</label><input id="homeW_home" type="number" min="0" value="0">
+      <label>Empatados como LOCAL</label><input id="homeD_home" type="number" min="0" value="0">
+      <label>Perdidos como LOCAL</label><input id="homeL_home" type="number" min="0" value="0">
 
-        <label>Puntos</label>
-        <input id="homePts" type="number" min="0" value="0">
-
-        <label>Goles a favor</label>
-        <input id="homeGF" type="number" min="0" value="0">
-
-        <label>Goles en contra</label>
-        <input id="homeGC" type="number" min="0" value="0">
-
-        <label>Partidos jugados</label>
-        <input id="homeMP" type="number" min="0" value="0">
-
-        <label>Partidos ganados contra este equipo</label>
-        <input id="homeW" type="number" min="0" value="0">
-
-        <label>Partidos empatados contra este equipo</label>
-        <input id="homeD" type="number" min="0" value="0">
-
-        <label>Partidos perdidos contra este equipo</label>
-        <input id="homeL" type="number" min="0" value="0">
-      </div>
-
-      <div>
-        <label>Nombre equipo (VISITANTE)</label>
-        <input id="awayName" type="text" value="Visita United">
-
-        <label>Posición</label>
-        <input id="awayPos" type="number" min="0" value="0">
-
-        <label>Puntos</label>
-        <input id="awayPts" type="number" min="0" value="0">
-
-        <label>Goles a favor</label>
-        <input id="awayGF" type="number" min="0" value="0">
-
-        <label>Goles en contra</label>
-        <input id="awayGC" type="number" min="0" value="0">
-
-        <label>Partidos jugados</label>
-        <input id="awayMP" type="number" min="0" value="0">
-
-        <label>Partidos ganados contra este equipo</label>
-        <input id="awayW" type="number" min="0" value="0">
-
-        <label>Partidos empatados contra este equipo</label>
-        <input id="awayD" type="number" min="0" value="0">
-
-        <label>Partidos perdidos contra este equipo</label>
-        <input id="awayL" type="number" min="0" value="0">
-      </div>
+      <label>Ganados como VISITANTE</label><input id="homeW_away" type="number" min="0" value="0">
+      <label>Empatados como VISITANTE</label><input id="homeD_away" type="number" min="0" value="0">
+      <label>Perdidos como VISITANTE</label><input id="homeL_away" type="number" min="0" value="0">
     </div>
 
-    <div class="actions">
-      <button id="calcBtn">Calcular</button>
-      <button id="resetBtn">Resetear</button>
-    </div>
+    <div>
+      <label>Nombre equipo (VISITANTE)</label>
+      <input id="awayName" type="text" value="Visita United">
+      <label>Posición</label><input id="awayPos" type="number" min="0" value="0">
+      <label>Puntos</label><input id="awayPts" type="number" min="0" value="0">
+      <label>Goles a favor</label><input id="awayGF" type="number" min="0" value="0">
+      <label>Goles en contra</label><input id="awayGC" type="number" min="0" value="0">
+      <label>Partidos jugados</label><input id="awayMP" type="number" min="0" value="0">
 
-    <div id="result" class="result" style="display:none">
-      <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <div style="flex:1;min-width:220px">
-          <div class="small">Resultado total</div>
-          <h2 id="summary" style="margin:6px 0 10px;font-size:20px"></h2>
-        </div>
-        <div style="flex:1;min-width:240px">
-          <div class="small">Porcentajes</div>
-          <div class="bars">
-            <div class="bar">
-              <div class="fill" id="barHome" style="background:var(--accent);"></div>
-              <div class="small" id="lblHome">Local 0%</div>
-            </div>
-            <div class="bar">
-              <div class="fill" id="barDraw" style="background:var(--draw);"></div>
-              <div class="small" id="lblDraw">Empate 0%</div>
-            </div>
-            <div class="bar">
-              <div class="fill" id="barAway" style="background:var(--away);"></div>
-              <div class="small" id="lblAway">Visita 0%</div>
-            </div>
+      <label>Ganados como LOCAL</label><input id="awayW_home" type="number" min="0" value="0">
+      <label>Empatados como LOCAL</label><input id="awayD_home" type="number" min="0" value="0">
+      <label>Perdidos como LOCAL</label><input id="awayL_home" type="number" min="0" value="0">
+
+      <label>Ganados como VISITANTE</label><input id="awayW_away" type="number" min="0" value="0">
+      <label>Empatados como VISITANTE</label><input id="awayD_away" type="number" min="0" value="0">
+      <label>Perdidos como VISITANTE</label><input id="awayL_away" type="number" min="0" value="0">
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="calcBtn">Calcular</button>
+    <button id="resetBtn">Resetear</button>
+  </div>
+
+  <div id="result" class="result" style="display:none">
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <div style="flex:1;min-width:220px">
+        <div class="small">Resultado total</div>
+        <h2 id="summary" style="margin:6px 0 10px;font-size:20px"></h2>
+      </div>
+      <div style="flex:1;min-width:240px">
+        <div class="small">Porcentajes</div>
+        <div class="bars">
+          <div class="bar">
+            <div class="fill" id="barHome" style="background:var(--accent);"></div>
+            <div class="small" id="lblHome">Local 0%</div>
+          </div>
+          <div class="bar">
+            <div class="fill" id="barDraw" style="background:var(--draw);"></div>
+            <div class="small" id="lblDraw">Empate 0%</div>
+          </div>
+          <div class="bar">
+            <div class="fill" id="barAway" style="background:var(--away);"></div>
+            <div class="small" id="lblAway">Visita 0%</div>
           </div>
         </div>
       </div>
     </div>
-
-    <footer>
-      Cálculos automáticos con modelo combinado interno.
-    </footer>
   </div>
+
+  <footer>Cálculos automáticos con modelo avanzado interno.</footer>
+</div>
 
 <script>
 const resetFields = () => {
-  const ids = ["homePos","homePts","homeGF","homeGC","homeMP","homeW","homeD","homeL",
-               "awayPos","awayPts","awayGF","awayGC","awayMP","awayW","awayD","awayL"];
+  const ids = [
+    "homePos","homePts","homeGF","homeGC","homeMP","homeW_home","homeD_home","homeL_home",
+    "homeW_away","homeD_away","homeL_away",
+    "awayPos","awayPts","awayGF","awayGC","awayMP","awayW_home","awayD_home","awayL_home",
+    "awayW_away","awayD_away","awayL_away"
+  ];
   ids.forEach(id => document.getElementById(id).value = 0);
   document.getElementById("result").style.display = "none";
 };
@@ -222,20 +197,32 @@ document.getElementById("calcBtn").onclick = () => {
   let hPts=g("homePts"), aPts=g("awayPts");
   let hPos=g("homePos"), aPos=g("awayPos");
 
-  // Promedios ataque/defensa evitando divisiones por 0
-  let hAtk = hMP? hGF/hMP : 0, hDef = hMP? hGC/hMP : 0;
-  let aAtk = aMP? aGF/aMP : 0, aDef = aMP? aGC/aMP : 0;
+  // Resultados históricos local/visitante
+  let hW_home=g("homeW_home"), hD_home=g("homeD_home"), hL_home=g("homeL_home");
+  let hW_away=g("homeW_away"), hD_away=g("homeD_away"), hL_away=g("homeL_away");
+  let aW_home=g("awayW_home"), aD_home=g("awayD_home"), aL_home=g("awayL_home");
+  let aW_away=g("awayW_away"), aD_away=g("awayD_away"), aL_away=g("awayL_away");
 
+  // Factor de rendimiento según local/visitante
+  let factorHome = ((hW_home+0.5*hD_home)/(hW_home+hD_home+hL_home || 1));
+  let factorAway = ((aW_away+0.5*aD_away)/(aW_away+aD_away+aL_away || 1));
+
+  // Ataque y defensa promedio
+  let hAtk = hMP ? hGF/hMP : 0;
+  let hDef = hMP ? hGC/hMP : 0;
+  let aAtk = aMP ? aGF/aMP : 0;
+  let aDef = aMP ? aGC/aMP : 0;
+
+  // Ajuste de Poisson según ventaja local/visitante
   let adv = 1.12;
+  let lambdaH = hAtk * aDef * adv * factorHome;
+  let lambdaA = aAtk * hDef * factorAway;
 
-  let lambdaH = hAtk * aDef * adv;
-  let lambdaA = aAtk * hDef;
-
-  let max=5;
+  // Poisson
   function P(l,k){ return (Math.pow(l,k)*Math.exp(-l))/factorial(k); }
   function factorial(n){ return n<=1?1:n*factorial(n-1); }
 
-  let pH=0, pD=0, pA=0;
+  let max=5, pH=0, pD=0, pA=0;
   for(let i=0;i<=max;i++){
     for(let j=0;j<=max;j++){
       let prob = P(lambdaH,i)*P(lambdaA,j);
@@ -245,6 +232,7 @@ document.getElementById("calcBtn").onclick = () => {
     }
   }
 
+  // Peso adicional por puntos y posición
   let rH = (hPts*1.5)+(hPos?50/hPos:0);
   let rA = (aPts*1.5)+(aPos?50/aPos:0);
   let rSum = rH+rA;
@@ -252,50 +240,23 @@ document.getElementById("calcBtn").onclick = () => {
   let rPctA = rSum? rA/rSum : 0.5;
 
   let atkSum = hAtk + aAtk;
-  let H = (pH*0.55)+(rPctH*0.30)+(0.15*(atkSum? (hAtk/atkSum) : 0.5));
-  let A = (pA*0.55)+(rPctA*0.30)+(0.15*(atkSum? (aAtk/atkSum) : 0.5));
+  let H = (pH*0.55)+(rPctH*0.30)+(0.15*(atkSum? (hAtk/atkSum):0.5));
+  let A = (pA*0.55)+(rPctA*0.30)+(0.15*(atkSum? (aAtk/atkSum):0.5));
   let D = 1-(H+A);
 
-  // --- Factor de Local/Visita basado en partidos ganados/empatados/perdidos ---
-  let coefLocal = 1.2;
-  let coefVisita = 0.85;
+  let sum = H+A+D; H/=sum; A/=sum; D/=sum;
 
-  let hW=g("homeW"), hD=g("homeD"), hL=g("homeL");
-  let aW=g("awayW"), aD=g("awayD"), aL=g("awayL");
-
-  let H_pep = (hW*coefLocal) + (aL*coefVisita) + (hD*1);
-  let A_pep = (aW*coefLocal) + (hL*coefVisita) + (aD*1);
-  let D_pep = (hD + aD)*0.5;
-
-  let pepSum = H_pep + D_pep + A_pep;
-  H_pep /= pepSum; A_pep /= pepSum; D_pep /= pepSum;
-
-  // Combinar con el cálculo original
-  H = (H*0.7) + (H_pep*0.3);
-  A = (A*0.7) + (A_pep*0.3);
-  D = (D*0.7) + (D_pep*0.3);
-
-  // Normalizar final
-  let sum = H+A+D;
-  H /= sum; A /= sum; D /= sum;
-
-  let h = Math.round(H*100);
-  let d = Math.round(D*100);
-  let a = Math.round(A*100);
+  let h = Math.round(H*100), d = Math.round(D*100), a = Math.round(A*100);
 
   document.getElementById("result").style.display="block";
-  document.getElementById("summary").textContent =
-    `${h}% Local — ${d}% Empate — ${a}% Visita`;
-
+  document.getElementById("summary").textContent = `${h}% Local — ${d}% Empate — ${a}% Visita`;
   document.getElementById("barHome").style.height = h+"%";
   document.getElementById("barDraw").style.height = d+"%";
   document.getElementById("barAway").style.height = a+"%";
-
   document.getElementById("lblHome").textContent = "Local "+h+"%";
   document.getElementById("lblDraw").textContent = "Empate "+d+"%";
   document.getElementById("lblAway").textContent = "Visita "+a+"%";
 };
 </script>
-
 </body>
 </html>
