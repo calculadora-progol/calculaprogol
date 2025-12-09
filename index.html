@@ -131,6 +131,9 @@ footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
       <label>Goles en contra</label>
       <input id="homeGC" type="number" min="0" value="0">
 
+      <label>Partidos jugados en tabla</label>
+      <input id="homeMP" type="number" min="0" value="0">
+
       <label>Partidos ganados de local contra este equipo</label>
       <input id="homeWL" type="number" min="0" value="0">
 
@@ -165,6 +168,9 @@ footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
 
       <label>Goles en contra</label>
       <input id="awayGC" type="number" min="0" value="0">
+
+      <label>Partidos jugados en tabla</label>
+      <input id="awayMP" type="number" min="0" value="0">
 
       <label>Partidos ganados de local contra este equipo</label>
       <input id="awayWL" type="number" min="0" value="0">
@@ -225,8 +231,8 @@ footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
 <script>
 const resetFields = () => {
   const ids = ["numMatches",
-               "homePos","homePts","homeGF","homeGC","homeWL","homeDL","homeLL","homeWA","homeDA","homeLA",
-               "awayPos","awayPts","awayGF","awayGC","awayWL","awayDL","awayLL","awayWA","awayDA","awayLA"];
+               "homePos","homePts","homeGF","homeGC","homeMP","homeWL","homeDL","homeLL","homeWA","homeDA","homeLA",
+               "awayPos","awayPts","awayGF","awayGC","awayMP","awayWL","awayDL","awayLL","awayWA","awayDA","awayLA"];
   ids.forEach(id => document.getElementById(id).value = (id==="numMatches"?7:0));
   document.getElementById("result").style.display = "none";
 };
@@ -237,8 +243,8 @@ document.getElementById("calcBtn").onclick = () => {
   const nMatches = g("numMatches") || 7;
 
   // Datos principales
-  const hGF=g("homeGF"), hGC=g("homeGC"), hMP=g("homePos"); // hMP = partidos jugados de tabla
-  const aGF=g("awayGF"), aGC=g("awayGC"), aMP=g("awayPos"); // aMP = partidos jugados de tabla
+  const hGF=g("homeGF"), hGC=g("homeGC"), hMP=g("homeMP"); // partidos jugados tabla
+  const aGF=g("awayGF"), aGC=g("awayGC"), aMP=g("awayMP");
   const hPts=g("homePts"), aPts=g("awayPts");
   const hPos=g("homePos"), aPos=g("awayPos");
 
@@ -271,8 +277,7 @@ document.getElementById("calcBtn").onclick = () => {
     }
   }
 
-  // Cálculo adicional usando historial de partidos locales/visitantes
-  // Cada probabilidad basada en resultado de historial
+  // Historial ponderado por número de partidos
   const H_hist = ((hWL+hDA)/nMatches)||0;
   const D_hist = ((hDL+hDA)/nMatches)||0;
   const A_hist = ((hWA+hLA)/nMatches)||0;
