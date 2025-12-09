@@ -222,10 +222,11 @@ document.getElementById("calcBtn").onclick = () => {
   let hPts=g("homePts"), aPts=g("awayPts");
   let hPos=g("homePos"), aPos=g("awayPos");
 
-  let hAtk=hGF/hMP||0, hDef=hGC/hMP||0;
-  let aAtk=aGF/aMP||0, aDef=aGC/aMP||0;
+  // Promedios ataque/defensa evitando divisiones por 0
+  let hAtk = hMP? hGF/hMP : 0, hDef = hMP? hGC/hMP : 0;
+  let aAtk = aMP? aGF/aMP : 0, aDef = aMP? aGC/aMP : 0;
 
-  let adv=1.12;
+  let adv = 1.12;
 
   let lambdaH = hAtk * aDef * adv;
   let lambdaA = aAtk * hDef;
@@ -247,14 +248,17 @@ document.getElementById("calcBtn").onclick = () => {
   let rH = (hPts*1.5)+(hPos?50/hPos:0);
   let rA = (aPts*1.5)+(aPos?50/aPos:0);
   let rSum = rH+rA;
-  let rPctH = rSum? rH/rSum:0.5, rPctA = rSum? rA/rSum:0.5;
+  let rPctH = rSum? rH/rSum : 0.5;
+  let rPctA = rSum? rA/rSum : 0.5;
 
-  let H = (pH*0.55)+(rPctH*0.30)+(0.15*(hAtk/(hAtk+aAtk)||0.5));
-  let A = (pA*0.55)+(rPctA*0.30)+(0.15*(aAtk/(hAtk+aAtk)||0.5));
+  let atkSum = hAtk + aAtk;
+  let H = (pH*0.55)+(rPctH*0.30)+(0.15*(atkSum? (hAtk/atkSum) : 0.5));
+  let A = (pA*0.55)+(rPctA*0.30)+(0.15*(atkSum? (aAtk/atkSum) : 0.5));
   let D = 1-(H+A);
 
-  let sum=H+A+D;
-  H/=sum; A/=sum; D/=sum;
+  // Normalizar
+  let sum = H+A+D;
+  H /= sum; A /= sum; D /= sum;
 
   let h = Math.round(H*100);
   let d = Math.round(D*100);
@@ -271,85 +275,6 @@ document.getElementById("calcBtn").onclick = () => {
   document.getElementById("lblHome").textContent = "Local "+h+"%";
   document.getElementById("lblDraw").textContent = "Empate "+d+"%";
   document.getElementById("lblAway").textContent = "Visita "+a+"%";
-};
-</script>
-
-
-
-
-
-<script>
-const resetFields = () => {
-  const ids = ["homePos","homePts","homeGF","homeGC","homeMP","homeW","homeD","homeL",
-               "awayPos","awayPts","awayGF","awayGC","awayMP","awayW","awayD","awayL"];
-  ids.forEach(id => document.getElementById(id).value = 0);
-  document.getElementById("result").style.display = "none";
-};
-
-document.getElementById("resetBtn").onclick = resetFields;
-
-document.getElementById("calcBtn").onclick = () => {
-  let g = id => parseFloat(document.getElementById(id).value) || 0;
-
-  let hGF=g("homeGF"), hGC=g("homeGC"), hMP=g("homeMP");
-  let aGF=g("awayGF"), aGC=g("awayGC"), aMP=g("awayMP");
-  let hPts=g("homePts"), aPts=g("awayPts");
-  let hPos=g("homePos"), aPos=g("awayPos");
-
-  let hAtk=hGF/hMP||0, hDef=hGC/hMP||0;
-  let aAtk=aGF/aMP||0, aDef=aGC/aMP||0;
-
-  let adv=1.12;
-
-  let lambdaH = hAtk * aDef * adv;
-  let lambdaA = aAtk * hDef;
-
-  let max=5;
-  function P(l,k){ return (Math.pow(l,k)*Math.exp(-l))/factorial(k); }
-  function factorial(n){ return n<=1?1:n*factorial(n-1); }
-
-  let pH=0, pD=0, pA=0;
-  for(let i=0;i<=max;i++){
-    for(let j=0;j<=max;j++){
-      let prob = P(lambdaH,i)*P(lambdaA,j);
-      if(i>j) pH+=prob;
-      else if(i===j) pD+=prob;
-      else pA+=prob;
-    }
-  }
-
-  let rH = (hPts*1.5)+(hPos?50/hPos:0);
-  let rA = (aPts*1.5)+(aPos?50/aPos:0);
-  let rSum = rH+rA;
-  let rPctH = rSum? rH/rSum:0.5, rPctA = rSum? rA/rSum:0.5;
-
-  let H = (pH*0.55)+(rPctH*0.30)+(0.15*(hAtk/(hAtk+aAtk)||0.5));
-  let A = (pA*0.55)+(rPctA*0.30)+(0.15*(aAtk/(hAtk+aAtk)||0.5));
-  let D = 1-(H+A);
-
-  let sum=H+A+D;
-  H/=sum; A/=sum; D/=sum;
-
-  let h = Math.round(H*100);
-  let d = Math.round(D*100);
-  let a = Math.round(A*100);
-
-  document.getElementById("result").style.display="block";
-  document.getElementById("summary").textContent =
-    `${h}% Local — ${d}% Empate — ${a}% Visita`;
-
-  // Ajustar altura y brillo según porcentaje
-  const setBar = (idBar, idLbl, val, color) => {
-    document.getElementById(idBar).style.height = val+"%";
-    // Opacidad entre 0.3 y 1 según porcentaje
-    let alpha = 0.3 + 0.7*(val/100);
-    document.getElementById(idBar).style.background = color.replace("1)", alpha+")");
-    document.getElementById(idLbl).textContent = document.getElementById(idLbl).textContent.split(" ")[0]+" "+val+"%";
-  };
-
-  setBar("barHome","lblHome",""+h,"rgba(0,209,255,1)");
-  setBar("barDraw","lblDraw",""+d,"rgba(255,165,0,1)");
-  setBar("barAway","lblAway",""+a,"rgba(255,77,77,1)");
 };
 </script>
 
