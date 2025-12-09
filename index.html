@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Progol — Calculadora Mejorada</title>
+<title>Progol — Calculadora Imparcial</title>
 
 <style>
   :root{
@@ -105,63 +105,81 @@
 
 <body>
   <div class="wrap">
-    <h1>Progol — Calculadora Mejorada</h1>
-    <p class="lead">Llena todos los datos para un cálculo equilibrado.</p>
+    <h1>Progol — Calculadora Imparcial</h1>
+    <p class="lead">Ingresa los datos manuales y el historial. La calculadora hará un cálculo equilibrado.</p>
 
-    <label>¿Cuántos partidos de historial usarás?</label>
-    <input type="number" id="histMatches" min="1" max="50" value="7">
+    <label>Número de partidos de historial a considerar</label>
+    <input id="numHist" type="number" min="1" max="24" value="7">
 
     <div class="grid">
       <div>
-        <h3>Equipo LOCAL</h3>
-        <label>Nombre</label>
+        <label>Nombre equipo (LOCAL)</label>
         <input id="homeName" type="text" value="Local FC">
-        <label>Posición</label>
+
+        <label>Posición en tabla</label>
         <input id="homePos" type="number" min="0" value="0">
+
         <label>Puntos</label>
         <input id="homePts" type="number" min="0" value="0">
+
         <label>Goles a favor</label>
         <input id="homeGF" type="number" min="0" value="0">
+
         <label>Goles en contra</label>
         <input id="homeGC" type="number" min="0" value="0">
+
         <label>Victorias de local contra este equipo</label>
-        <input id="homeWHome" type="number" min="0" value="0">
+        <input id="homeWL" type="number" min="0" value="0">
+
         <label>Empates de local contra este equipo</label>
-        <input id="homeDHome" type="number" min="0" value="0">
+        <input id="homeDL" type="number" min="0" value="0">
+
         <label>Derrotas de local contra este equipo</label>
-        <input id="homeLHome" type="number" min="0" value="0">
+        <input id="homeLL" type="number" min="0" value="0">
+
         <label>Victorias de visitante contra este equipo</label>
-        <input id="homeWAway" type="number" min="0" value="0">
+        <input id="homeWA" type="number" min="0" value="0">
+
         <label>Empates de visitante contra este equipo</label>
-        <input id="homeDAway" type="number" min="0" value="0">
+        <input id="homeDA" type="number" min="0" value="0">
+
         <label>Derrotas de visitante contra este equipo</label>
-        <input id="homeLAway" type="number" min="0" value="0">
+        <input id="homeLA" type="number" min="0" value="0">
       </div>
 
       <div>
-        <h3>Equipo VISITANTE</h3>
-        <label>Nombre</label>
+        <label>Nombre equipo (VISITANTE)</label>
         <input id="awayName" type="text" value="Visita United">
-        <label>Posición</label>
+
+        <label>Posición en tabla</label>
         <input id="awayPos" type="number" min="0" value="0">
+
         <label>Puntos</label>
         <input id="awayPts" type="number" min="0" value="0">
+
         <label>Goles a favor</label>
         <input id="awayGF" type="number" min="0" value="0">
+
         <label>Goles en contra</label>
         <input id="awayGC" type="number" min="0" value="0">
+
         <label>Victorias de local contra este equipo</label>
-        <input id="awayWHome" type="number" min="0" value="0">
+        <input id="awayWL" type="number" min="0" value="0">
+
         <label>Empates de local contra este equipo</label>
-        <input id="awayDHome" type="number" min="0" value="0">
+        <input id="awayDL" type="number" min="0" value="0">
+
         <label>Derrotas de local contra este equipo</label>
-        <input id="awayLHome" type="number" min="0" value="0">
+        <input id="awayLL" type="number" min="0" value="0">
+
         <label>Victorias de visitante contra este equipo</label>
-        <input id="awayWAway" type="number" min="0" value="0">
+        <input id="awayWA" type="number" min="0" value="0">
+
         <label>Empates de visitante contra este equipo</label>
-        <input id="awayDAway" type="number" min="0" value="0">
+        <input id="awayDA" type="number" min="0" value="0">
+
         <label>Derrotas de visitante contra este equipo</label>
-        <input id="awayLAway" type="number" min="0" value="0">
+        <input id="awayLA" type="number" min="0" value="0">
       </div>
     </div>
 
@@ -197,88 +215,63 @@
     </div>
 
     <footer>
-      Cálculos automáticos con modelo combinado interno. Todos los factores tienen peso.
+      Calculadora imparcial — todos los datos tienen peso equilibrado.
     </footer>
   </div>
 
 <script>
 const resetFields = () => {
-  const ids = ["homePos","homePts","homeGF","homeGC",
-               "homeWHome","homeDHome","homeLHome",
-               "homeWAway","homeDAway","homeLAway",
-               "awayPos","awayPts","awayGF","awayGC",
-               "awayWHome","awayDHome","awayLHome",
-               "awayWAway","awayDAway","awayLAway"];
+  const ids = [
+    "numHist",
+    "homePos","homePts","homeGF","homeGC",
+    "homeWL","homeDL","homeLL","homeWA","homeDA","homeLA",
+    "awayPos","awayPts","awayGF","awayGC",
+    "awayWL","awayDL","awayLL","awayWA","awayDA","awayLA"
+  ];
   ids.forEach(id => document.getElementById(id).value = 0);
-  document.getElementById("histMatches").value = 7;
-  document.getElementById("result").style.display = "none";
+  document.getElementById("homeName").value="Local FC";
+  document.getElementById("awayName").value="Visita United";
+  document.getElementById("numHist").value=7;
+  document.getElementById("result").style.display="none";
 };
 
 document.getElementById("resetBtn").onclick = resetFields;
 
 document.getElementById("calcBtn").onclick = () => {
   let g = id => parseFloat(document.getElementById(id).value) || 0;
-  let hist = parseInt(document.getElementById("histMatches").value) || 7;
+  let nh = g("numHist");
 
-  // Datos principales
-  let hPts=g("homePts"), aPts=g("awayPts");
-  let hPos=g("homePos"), aPos=g("awayPos");
-  let hGF=g("homeGF"), hGC=g("homeGC");
-  let aGF=g("awayGF"), aGC=g("awayGC");
+  // Datos de tabla
+  let hGF=g("homeGF"), hGC=g("homeGC"), hPts=g("homePts"), hPos=g("homePos");
+  let aGF=g("awayGF"), aGC=g("awayGC"), aPts=g("awayPts"), aPos=g("awayPos");
 
-  // Historial local y visitante
-  let hWHome=g("homeWHome"), hDHome=g("homeDHome"), hLHome=g("homeLHome");
-  let hWAway=g("homeWAway"), hDAway=g("homeDAway"), hLAway=g("homeLAway");
+  // Historial por local/visitante
+  let hWL=g("homeWL"), hDL=g("homeDL"), hLL=g("homeLL"), hWA=g("homeWA"), hDA=g("homeDA"), hLA=g("homeLA");
+  let aWL=g("awayWL"), aDL=g("awayDL"), aLL=g("awayLL"), aWA=g("awayWA"), aDA=g("awayDA"), aLA=g("awayLA");
 
-  let aWHome=g("awayWHome"), aDHome=g("awayDHome"), aLHome=g("awayLHome");
-  let aWAway=g("awayWAway"), aDAway=g("awayDAway"), aLAway=g("awayLAway");
+  // Normalizar estadísticas del historial
+  let histH = nh ? ((hWL+hWA)*3 + (hDL+hDA)*1) / (nh*3) : 0.5;
+  let histA = nh ? ((aWL+aWA)*3 + (aDL+aDA)*1) / (nh*3) : 0.5;
 
-  // Promedios ataque/defensa
-  let hAtk = hGF/hist||0, hDef = hGC/hist||0;
-  let aAtk = aGF/hist||0, aDef = aGC/hist||0;
+  // Factor de goles promedio
+  let hAtk = hGF/hPos || 0, hDef = hGC/hPos || 0;
+  let aAtk = aGF/aPos || 0, aDef = aGC/aPos || 0;
 
-  // Probabilidades básicas Poisson
-  let adv = 1.05; // factor de localidad más equilibrado
-  let lambdaH = hAtk*aDef*adv;
-  let lambdaA = aAtk*hDef;
-  let max=5;
-  function P(l,k){ return (Math.pow(l,k)*Math.exp(-l))/factorial(k); }
-  function factorial(n){ return n<=1?1:n*factorial(n-1); }
+  // Factor de fuerza en tabla
+  let tabH = hPts*1.5 + (hPos ? 50/hPos :0);
+  let tabA = aPts*1.5 + (aPos ? 50/aPos :0);
+  let sumTab = tabH+tabA;
+  let pctH = sumTab ? tabH/sumTab : 0.5;
+  let pctA = sumTab ? tabA/sumTab : 0.5;
 
-  let pH=0, pD=0, pA=0;
-  for(let i=0;i<=max;i++){
-    for(let j=0;j<=max;j++){
-      let prob = P(lambdaH,i)*P(lambdaA,j);
-      if(i>j) pH+=prob;
-      else if(i===j) pD+=prob;
-      else pA+=prob;
-    }
-  }
-
-  // Factor historial: dar peso a victorias/empates/derrotas de local y visitante
-  let hHistScore = ((hWHome*3+hDHome*1+hWAway*3+hDAway*1)/(hist*3))||0.5;
-  let aHistScore = ((aWHome*3+aDHome*1+aWAway*3+aDAway*1)/(hist*3))||0.5;
-
-  // Factor puntos y posición
-  let rH = (hPts*1.5)+(hPos?50/hPos:0);
-  let rA = (aPts*1.5)+(aPos?50/aPos:0);
-  let rSum = rH+rA;
-  let rPctH = rSum? rH/rSum:0.5;
-  let rPctA = rSum? rA/rSum:0.5;
-
-  // Factor ataque general
-  let atkSum = hAtk + aAtk;
-  let atkH = atkSum? hAtk/atkSum:0.5;
-  let atkA = atkSum? aAtk/atkSum:0.5;
-
-  // Combinación ponderada
-  let H = (pH*0.35)+(rPctH*0.25)+(atkH*0.15)+(hHistScore*0.25);
-  let A = (pA*0.35)+(rPctA*0.25)+(atkA*0.15)+(aHistScore*0.25);
-  let D = 1-(H+A);
+  // Combinación de todos los factores con peso equilibrado
+  let H = (histH*0.4) + (pctH*0.3) + (hAtk/(hAtk+aAtk||1)*0.2) + (Math.random()*0.1);
+  let A = (histA*0.4) + (pctA*0.3) + (aAtk/(hAtk+aAtk||1)*0.2) + (Math.random()*0.1);
+  let D = 1 - (H+A);
 
   // Normalizar
   let sum = H+A+D;
-  H /= sum; A /= sum; D /= sum;
+  H/=sum; A/=sum; D/=sum;
 
   let h = Math.round(H*100);
   let d = Math.round(D*100);
