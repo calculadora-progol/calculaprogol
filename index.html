@@ -31,15 +31,20 @@ body{
 }
 h1{margin:0 0 8px;color:var(--accent)}
 p.lead{color:var(--muted);margin:0 0 12px}
+
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
-@media(max-width:820px){.grid{grid-template-columns:1fr;}}
+@media(max-width:820px){
+  .grid{ grid-template-columns:1fr; }
+}
+
 label{
   display:block;color:var(--muted);font-size:13px;margin:8px 0 6px
 }
+
 input[type=text],input[type=number]{
   width:100%;
   padding:10px;
@@ -50,6 +55,7 @@ input[type=text],input[type=number]{
   box-sizing:border-box;
   font-size:15px;
 }
+
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 button{
   background:var(--accent);
@@ -60,12 +66,14 @@ button{
   font-weight:700;
   cursor:pointer;
 }
+
 .result{
   margin-top:16px;
   padding:12px;
   border-radius:10px;
   background:linear-gradient(180deg, rgba(0,209,255,0.03), rgba(255,255,255,0.01));
 }
+
 .bars{
   display:flex;
   gap:8px;
@@ -74,6 +82,7 @@ button{
 }
 @media(max-width:650px){ .bars{height:110px;} }
 @media(max-width:480px){ .bars{height:90px;} }
+
 .bar{
   flex:1;
   border-radius:8px;
@@ -96,208 +105,205 @@ footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
 
 <body>
 <div class="wrap">
-<h1>Progol — Cálculo Automático</h1>
-<p class="lead">Ingresa los datos manuales. El sistema calcula automáticamente.</p>
+  <h1>Progol — Cálculo Automático</h1>
+  <p class="lead">Ingresa los datos manuales. El sistema calcula automáticamente.</p>
 
-<div class="grid">
-  <div>
-    <h3>Equipo Local</h3>
-    <label>Nombre equipo</label>
-    <input id="homeName" type="text" value="Local FC">
-
-    <label>Posición</label>
-    <input id="homePos" type="number" min="0" value="0">
-
-    <label>Puntos</label>
-    <input id="homePts" type="number" min="0" value="0">
-
-    <label>Partidos jugados</label>
-    <input id="homeMP" type="number" min="0" value="0">
-
-    <label>Goles a favor</label>
-    <input id="homeGF" type="number" min="0" value="0">
-
-    <label>Goles en contra</label>
-    <input id="homeGC" type="number" min="0" value="0">
-
-    <label>Ganados de local</label>
-    <input id="homeWLocal" type="number" min="0" value="0">
-
-    <label>Empatados de local</label>
-    <input id="homeDLocal" type="number" min="0" value="0">
-
-    <label>Perdidos de local</label>
-    <input id="homeLLocal" type="number" min="0" value="0">
-
-    <label>Ganados de visitante</label>
-    <input id="homeWAway" type="number" min="0" value="0">
-
-    <label>Empatados de visitante</label>
-    <input id="homeDAway" type="number" min="0" value="0">
-
-    <label>Perdidos de visitante</label>
-    <input id="homeLAway" type="number" min="0" value="0">
+  <!-- NUEVO FORMULARIO: número de partidos -->
+  <div style="margin-bottom:12px;">
+    <label>Número de partidos de historial a considerar:</label>
+    <input id="numMatches" type="number" min="1" value="7">
   </div>
 
-  <div>
-    <h3>Equipo Visitante</h3>
-    <label>Nombre equipo</label>
-    <input id="awayName" type="text" value="Visita United">
+  <div class="grid">
+    <div>
+      <label>Nombre equipo (LOCAL)</label>
+      <input id="homeName" type="text" value="Local FC">
 
-    <label>Posición</label>
-    <input id="awayPos" type="number" min="0" value="0">
+      <label>Posición</label>
+      <input id="homePos" type="number" min="0" value="0">
 
-    <label>Puntos</label>
-    <input id="awayPts" type="number" min="0" value="0">
+      <label>Puntos</label>
+      <input id="homePts" type="number" min="0" value="0">
 
-    <label>Partidos jugados</label>
-    <input id="awayMP" type="number" min="0" value="0">
+      <label>Goles a favor</label>
+      <input id="homeGF" type="number" min="0" value="0">
 
-    <label>Goles a favor</label>
-    <input id="awayGF" type="number" min="0" value="0">
+      <label>Goles en contra</label>
+      <input id="homeGC" type="number" min="0" value="0">
 
-    <label>Goles en contra</label>
-    <input id="awayGC" type="number" min="0" value="0">
+      <label>Partidos ganados de local contra este equipo</label>
+      <input id="homeWL" type="number" min="0" value="0">
 
-    <label>Ganados de local</label>
-    <input id="awayWLocal" type="number" min="0" value="0">
+      <label>Partidos empatados de local contra este equipo</label>
+      <input id="homeDL" type="number" min="0" value="0">
 
-    <label>Empatados de local</label>
-    <input id="awayDLocal" type="number" min="0" value="0">
+      <label>Partidos perdidos de local contra este equipo</label>
+      <input id="homeLL" type="number" min="0" value="0">
 
-    <label>Perdidos de local</label>
-    <input id="awayLLocal" type="number" min="0" value="0">
+      <label>Partidos ganados de visitante contra este equipo</label>
+      <input id="homeWA" type="number" min="0" value="0">
 
-    <label>Ganados de visitante</label>
-    <input id="awayWAway" type="number" min="0" value="0">
+      <label>Partidos empatados de visitante contra este equipo</label>
+      <input id="homeDA" type="number" min="0" value="0">
 
-    <label>Empatados de visitante</label>
-    <input id="awayDAway" type="number" min="0" value="0">
-
-    <label>Perdidos de visitante</label>
-    <input id="awayLAway" type="number" min="0" value="0">
-  </div>
-</div>
-
-<div class="actions">
-  <button id="calcBtn">Calcular</button>
-  <button id="resetBtn">Resetear</button>
-</div>
-
-<div id="result" class="result" style="display:none">
-  <div style="display:flex;flex-wrap:wrap;gap:12px">
-    <div style="flex:1;min-width:220px">
-      <div class="small">Resultado total</div>
-      <h2 id="summary" style="margin:6px 0 10px;font-size:20px"></h2>
+      <label>Partidos perdidos de visitante contra este equipo</label>
+      <input id="homeLA" type="number" min="0" value="0">
     </div>
-    <div style="flex:1;min-width:240px">
-      <div class="small">Porcentajes</div>
-      <div class="bars">
-        <div class="bar">
-          <div class="fill" id="barHome" style="background:var(--accent);"></div>
-          <div class="small" id="lblHome">Local 0%</div>
-        </div>
-        <div class="bar">
-          <div class="fill" id="barDraw" style="background:var(--draw);"></div>
-          <div class="small" id="lblDraw">Empate 0%</div>
-        </div>
-        <div class="bar">
-          <div class="fill" id="barAway" style="background:var(--away);"></div>
-          <div class="small" id="lblAway">Visita 0%</div>
+
+    <div>
+      <label>Nombre equipo (VISITANTE)</label>
+      <input id="awayName" type="text" value="Visita United">
+
+      <label>Posición</label>
+      <input id="awayPos" type="number" min="0" value="0">
+
+      <label>Puntos</label>
+      <input id="awayPts" type="number" min="0" value="0">
+
+      <label>Goles a favor</label>
+      <input id="awayGF" type="number" min="0" value="0">
+
+      <label>Goles en contra</label>
+      <input id="awayGC" type="number" min="0" value="0">
+
+      <label>Partidos ganados de local contra este equipo</label>
+      <input id="awayWL" type="number" min="0" value="0">
+
+      <label>Partidos empatados de local contra este equipo</label>
+      <input id="awayDL" type="number" min="0" value="0">
+
+      <label>Partidos perdidos de local contra este equipo</label>
+      <input id="awayLL" type="number" min="0" value="0">
+
+      <label>Partidos ganados de visitante contra este equipo</label>
+      <input id="awayWA" type="number" min="0" value="0">
+
+      <label>Partidos empatados de visitante contra este equipo</label>
+      <input id="awayDA" type="number" min="0" value="0">
+
+      <label>Partidos perdidos de visitante contra este equipo</label>
+      <input id="awayLA" type="number" min="0" value="0">
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="calcBtn">Calcular</button>
+    <button id="resetBtn">Resetear</button>
+  </div>
+
+  <div id="result" class="result" style="display:none">
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <div style="flex:1;min-width:220px">
+        <div class="small">Resultado total</div>
+        <h2 id="summary" style="margin:6px 0 10px;font-size:20px"></h2>
+      </div>
+      <div style="flex:1;min-width:240px">
+        <div class="small">Porcentajes</div>
+        <div class="bars">
+          <div class="bar">
+            <div class="fill" id="barHome" style="background:var(--accent);"></div>
+            <div class="small" id="lblHome">Local 0%</div>
+          </div>
+          <div class="bar">
+            <div class="fill" id="barDraw" style="background:var(--draw);"></div>
+            <div class="small" id="lblDraw">Empate 0%</div>
+          </div>
+          <div class="bar">
+            <div class="fill" id="barAway" style="background:var(--away);"></div>
+            <div class="small" id="lblAway">Visita 0%</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<footer>
-Cálculos automáticos con modelo combinado interno.
-</footer>
+  <footer>
+    Cálculos automáticos con modelo combinado interno.
+  </footer>
 </div>
 
 <script>
 const resetFields = () => {
-  const ids = ["homePos","homePts","homeGF","homeGC","homeMP","homeWLocal","homeDLocal","homeLLocal","homeWAway","homeDAway","homeLAway",
-               "awayPos","awayPts","awayGF","awayGC","awayMP","awayWLocal","awayDLocal","awayLLocal","awayWAway","awayDAway","awayLAway"];
-  ids.forEach(id => document.getElementById(id).value = 0);
+  const ids = ["numMatches",
+               "homePos","homePts","homeGF","homeGC","homeWL","homeDL","homeLL","homeWA","homeDA","homeLA",
+               "awayPos","awayPts","awayGF","awayGC","awayWL","awayDL","awayLL","awayWA","awayDA","awayLA"];
+  ids.forEach(id => document.getElementById(id).value = (id==="numMatches"?7:0));
   document.getElementById("result").style.display = "none";
 };
 document.getElementById("resetBtn").onclick = resetFields;
 
 document.getElementById("calcBtn").onclick = () => {
-  let g=id=>parseFloat(document.getElementById(id).value)||0;
+  const g = id => parseFloat(document.getElementById(id).value)||0;
+  const nMatches = g("numMatches") || 7;
 
-  // Datos Local
-  let hGF=g("homeGF"), hGC=g("homeGC"), hMP=g("homeMP");
-  let hPts=g("homePts"), hPos=g("homePos");
-  let hWLocal=g("homeWLocal"), hDLocal=g("homeDLocal"), hLLocal=g("homeLLocal");
-  let hWAway=g("homeWAway"), hDAway=g("homeDAway"), hLAway=g("homeLAway");
+  // Datos principales
+  const hGF=g("homeGF"), hGC=g("homeGC"), hMP=g("homePos"); // hMP = partidos jugados de tabla
+  const aGF=g("awayGF"), aGC=g("awayGC"), aMP=g("awayPos"); // aMP = partidos jugados de tabla
+  const hPts=g("homePts"), aPts=g("awayPts");
+  const hPos=g("homePos"), aPos=g("awayPos");
 
-  // Datos Visitante
-  let aGF=g("awayGF"), aGC=g("awayGC"), aMP=g("awayMP");
-  let aPts=g("awayPts"), aPos=g("awayPos");
-  let aWLocal=g("awayWLocal"), aDLocal=g("awayDLocal"), aLLocal=g("awayLLocal");
-  let aWAway=g("awayWAway"), aDAway=g("awayDAway"), aLAway=g("awayLAway");
+  // Historial local/visitante
+  const hWL=g("homeWL"), hDL=g("homeDL"), hLL=g("homeLL"), hWA=g("homeWA"), hDA=g("homeDA"), hLA=g("homeLA");
+  const aWL=g("awayWL"), aDL=g("awayDL"), aLL=g("awayLL"), aWA=g("awayWA"), aDA=g("awayDA"), aLA=g("awayLA");
 
-  // Ataque y defensa promedios
-  let hAtk=hMP? hGF/hMP : 0, hDef=hMP? hGC/hMP : 0;
-  let aAtk=aMP? aGF/aMP : 0, aDef=aMP? aGC/aMP : 0;
+  // Factor ataque/defensa
+  const hAtk = hMP? hGF/hMP:0, hDef=hMP? hGC/hMP:0;
+  const aAtk = aMP? aGF/aMP:0, aDef=aMP? aGC/aMP:0;
 
-  // Factor ventaja local según historial
-  let hHomePerc=hMP? ((hWLocal + 0.5*hDLocal)/hMP) : 0.5;
-  let hAwayPerc=hMP? ((hWAway + 0.5*hDAway)/hMP) : 0.5;
-  let aHomePerc=aMP? ((aWLocal + 0.5*aDLocal)/aMP) : 0.5;
-  let aAwayPerc=aMP? ((aWAway + 0.5*aDAway)/aMP) : 0.5;
+  // Factor ventaja local
+  const adv = 1.12;
 
-  let advFactor = 1.1; // multiplicador por ventaja local
-  let lambdaH = hAtk * aDef * (1 + (hHomePerc - aAwayPerc)*advFactor);
-  let lambdaA = aAtk * hDef * (1 + (aHomePerc - hAwayPerc)*advFactor);
+  // Lambda Poisson
+  const lambdaH = hAtk*aDef*adv;
+  const lambdaA = aAtk*hDef;
 
-  // Distribución Poisson
-  let max=5;
-  function P(l,k){return (Math.pow(l,k)*Math.exp(-l))/factorial(k);}
-  function factorial(n){return n<=1?1:n*factorial(n-1);}
+  const max=5;
+  function P(l,k){ return (Math.pow(l,k)*Math.exp(-l))/factorial(k); }
+  function factorial(n){ return n<=1?1:n*factorial(n-1); }
 
   let pH=0, pD=0, pA=0;
   for(let i=0;i<=max;i++){
     for(let j=0;j<=max;j++){
-      let prob=P(lambdaH,i)*P(lambdaA,j);
+      const prob = P(lambdaH,i)*P(lambdaA,j);
       if(i>j) pH+=prob;
       else if(i===j) pD+=prob;
       else pA+=prob;
     }
   }
 
-  // Ponderación por puntos y posición
-  let rH=(hPts*1.5)+(hPos?50/hPos:0);
-  let rA=(aPts*1.5)+(aPos?50/aPos:0);
-  let rSum=rH+rA;
-  let rPctH=rSum? rH/rSum : 0.5;
-  let rPctA=rSum? rA/rSum : 0.5;
+  // Cálculo adicional usando historial de partidos locales/visitantes
+  // Cada probabilidad basada en resultado de historial
+  const H_hist = ((hWL+hDA)/nMatches)||0;
+  const D_hist = ((hDL+hDA)/nMatches)||0;
+  const A_hist = ((hWA+hLA)/nMatches)||0;
 
-  // Combinación total
-  let atkSum=hAtk + aAtk;
-  let H=(pH*0.55)+(rPctH*0.25)+(0.15*(atkSum? hAtk/atkSum : 0.5)) + 0.05*hHomePerc;
-  let A=(pA*0.55)+(rPctA*0.25)+(0.15*(atkSum? aAtk/atkSum : 0.5)) + 0.05*aAwayPerc;
-  let D=1-(H+A);
+  const rH = (hPts*1.5)+(hPos?50/hPos:0);
+  const rA = (aPts*1.5)+(aPos?50/aPos:0);
+  const rSum = rH+rA;
+  const rPctH = rSum? rH/rSum:0.5;
+  const rPctA = rSum? rA/rSum:0.5;
+
+  const atkSum = hAtk+aAtk;
+  let H = (pH*0.5)+(rPctH*0.2)+(0.15*(atkSum? hAtk/atkSum:0.5))+(0.15*H_hist);
+  let A = (pA*0.5)+(rPctA*0.2)+(0.15*(atkSum? aAtk/atkSum:0.5))+(0.15*A_hist);
+  let D = 1-(H+A);
 
   // Normalizar
-  let sum=H+A+D;
+  const sum = H+A+D;
   H/=sum; A/=sum; D/=sum;
 
-  let h=Math.round(H*100), d=Math.round(D*100), a=Math.round(A*100);
+  const h=Math.round(H*100), d=Math.round(D*100), a=Math.round(A*100);
 
   document.getElementById("result").style.display="block";
-  document.getElementById("summary").textContent=`${h}% Local — ${d}% Empate — ${a}% Visita`;
-
-  document.getElementById("barHome").style.height=h+"%";
-  document.getElementById("barDraw").style.height=d+"%";
-  document.getElementById("barAway").style.height=a+"%";
-
-  document.getElementById("lblHome").textContent="Local "+h+"%";
-  document.getElementById("lblDraw").textContent="Empate "+d+"%";
-  document.getElementById("lblAway").textContent="Visita "+a+"%";
+  document.getElementById("summary").textContent = `${h}% Local — ${d}% Empate — ${a}% Visita`;
+  document.getElementById("barHome").style.height = h+"%";
+  document.getElementById("barDraw").style.height = d+"%";
+  document.getElementById("barAway").style.height = a+"%";
+  document.getElementById("lblHome").textContent = "Local "+h+"%";
+  document.getElementById("lblDraw").textContent = "Empate "+d+"%";
+  document.getElementById("lblAway").textContent = "Visita "+a+"%";
 };
 </script>
+
 </body>
 </html>
