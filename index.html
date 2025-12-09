@@ -256,7 +256,26 @@ document.getElementById("calcBtn").onclick = () => {
   let A = (pA*0.55)+(rPctA*0.30)+(0.15*(atkSum? (aAtk/atkSum) : 0.5));
   let D = 1-(H+A);
 
-  // Normalizar
+  // --- Factor de Local/Visita basado en partidos ganados/empatados/perdidos ---
+  let coefLocal = 1.2;
+  let coefVisita = 0.85;
+
+  let hW=g("homeW"), hD=g("homeD"), hL=g("homeL");
+  let aW=g("awayW"), aD=g("awayD"), aL=g("awayL");
+
+  let H_pep = (hW*coefLocal) + (aL*coefVisita) + (hD*1);
+  let A_pep = (aW*coefLocal) + (hL*coefVisita) + (aD*1);
+  let D_pep = (hD + aD)*0.5;
+
+  let pepSum = H_pep + D_pep + A_pep;
+  H_pep /= pepSum; A_pep /= pepSum; D_pep /= pepSum;
+
+  // Combinar con el cálculo original
+  H = (H*0.7) + (H_pep*0.3);
+  A = (A*0.7) + (A_pep*0.3);
+  D = (D*0.7) + (D_pep*0.3);
+
+  // Normalizar final
   let sum = H+A+D;
   H /= sum; A /= sum; D /= sum;
 
